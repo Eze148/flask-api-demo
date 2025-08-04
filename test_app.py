@@ -1,47 +1,43 @@
 import unittest
-import json
-from app import app  # Assumes your Flask code is in `app.py`
+import requests
 
+BASE_URL = "http://localhost:8080"
 
-class FlaskApiTestCase(unittest.TestCase):
-
-    def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+class FlaskLocalApiTestCase(unittest.TestCase):
 
     def test_home(self):
-        response = self.app.get("/")
+        response = requests.get(f"{BASE_URL}/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("Hello, world!", response.get_data(as_text=True))
+        self.assertIn("Hello", response.json()["message"])
 
     def test_about(self):
-        response = self.app.get("/about")
+        response = requests.get(f"{BASE_URL}/about")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("sample Flask API", response.get_data(as_text=True))
+        self.assertIn("sample Flask API", response.json()["about"])
 
     def test_echo_valid(self):
         payload = {"name": "Ezekiel"}
-        response = self.app.post("/echo", json=payload)
+        response = requests.post(f"{BASE_URL}/echo", json=payload)
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.get_json(), {"you_sent": payload})
+        self.assertEqual(response.json(), {"you_sent": payload})
 
     def test_add_valid(self):
         payload = {"a": 5, "b": 3}
-        response = self.app.post("/add", json=payload)
+        response = requests.post(f"{BASE_URL}/add", json=payload)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.get_json(), {"result": 8.0})
+        self.assertEqual(response.json(), {"result": 8.0})
 
     def test_add_missing_param(self):
         payload = {"a": 5}
-        response = self.app.post("/add", json=payload)
+        response = requests.post(f"{BASE_URL}/add", json=payload)
         self.assertEqual(response.status_code, 400)
-        self.assertIn("Missing a or b", response.get_data(as_text=True))
+        self.assertIn("Missing a or b", response.json()["error"])
 
     def test_add_invalid_type(self):
         payload = {"a": "five", "b": 2}
-        response = self.app.post("/add", json=payload)
+        response = requests.post(f"{BASE_URL}/add", json=payload)
         self.assertEqual(response.status_code, 400)
-        self.assertIn("a and b must be numbers", response.get_data(as_text=True))
+        self.assertIn("a and b must be numbers", response.json()["error"])
 
 
 if __name__ == "__main__":
