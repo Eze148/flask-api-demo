@@ -27,3 +27,7 @@ jobs:
     - name: Run unit tests
       run: |
         python test_app.py
+
+    - name: Check formatting with Black
+      run: |
+        black --check .
