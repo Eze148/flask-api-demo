@@ -25,6 +25,10 @@ jobs:
       run: |
         python test_app.py
 
+    - name: Check formatting with Black
+      run: |
+        black --check .
+        
     - name: Build Docker image (for staging)
       run: |
         docker build -t flask-app:staging .
