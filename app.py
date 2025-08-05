@@ -17,7 +17,6 @@ def about():
         "version": "staging-1.1"
     })
 
-
 # New endpoint: /echo (POST)
 from flask import request
 
