@@ -29,9 +29,9 @@ jobs:
       run: |
         coverage run test_app.py
 
-    - name: Report coverage
+    - name: Generate HTML coverage report
       run: |
-        coverage report
+        coverage html
 
     - name: Check formatting with Black
       run: |
