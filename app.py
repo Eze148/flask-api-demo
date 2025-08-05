@@ -12,7 +12,10 @@ def home():
 # New endpoint: /about (GET)
 @app.route("/about")
 def about():
-    return jsonify({"about": "This is a sample Flask API with multiple endpoints."})
+    return jsonify({
+        "about": "This is the updated STAGING version of the Flask API. 🚧",
+        "version": "staging-1.1"
+    })
 
 
 # New endpoint: /echo (POST)
