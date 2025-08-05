@@ -17,7 +17,11 @@ class FlaskApiTestCase(unittest.TestCase):
     def test_about(self):
         response = self.app.get("/about")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("sample Flask API", response.get_data(as_text=True))
+        self.assertEqual(response.status_code, 200)
+        json_data = response.get_json()
+        self.assertIn("about", json_data)
+        self.assertIn("updated STAGING", json_data["about"])
+        self.assertEqual(json_data["version"], "staging-1.1")
 
     def test_echo_valid(self):
         payload = {"name": "Ezekiel"}
