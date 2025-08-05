@@ -25,6 +25,14 @@ jobs:
       run: |
         python test_app.py
 
+    - name: Run tests with coverage
+      run: |
+        coverage run test_app.py
+
+    - name: Report coverage
+      run: |
+        coverage report
+
     - name: Check formatting with Black
       run: |
         black --check .
@@ -32,3 +40,9 @@ jobs:
     - name: Build Docker image (for staging)
       run: |
         docker build -t flask-app:staging .
+
+    - name: Upload HTML coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-html
+        path: htmlcov/

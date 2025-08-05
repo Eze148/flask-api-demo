@@ -25,6 +25,14 @@ jobs:
       run: |
         python test_app.py
 
+    - name: Run tests with coverage
+      run: |
+        coverage run test_app.py
+
+    - name: Report coverage
+      run: |
+        coverage report
+
     - name: Check formatting with Black
       run: |
         black --check .
@@ -33,5 +41,12 @@ jobs:
       run: |
         docker build -t flask-app:prod .
 
+    - name: Upload HTML coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-html
+        path: htmlcov/
+
     # Optional: deploy to production platform
     # You can add your Docker push or Railway deploy hook here
+
